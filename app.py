@@ -22,6 +22,7 @@ class Category:
             return True
         return False
 
+
     def check_funds(self, amount):
         return self.get_balance() >= amount
 
@@ -32,7 +33,7 @@ class Category:
         return f"{title}\n{items}\n{total}"
 
 def create_spend_chart(categories):
-    total_spent = sum(category.get_balance() for category in categories)
+    total_spent = sum(sum(item['amount'] for item in category.ledger if item['amount'] < 0) for category in categories)
     chart = ['Percentage spent by category']
 
     # Calculate spending percentage for each category
@@ -69,6 +70,7 @@ def create_spend_chart(categories):
         chart.append(line.rstrip())  # Remove trailing spaces after the final name
 
     return "\n".join(chart)
+
 
 # Example Usage
 food = Category('Food')
